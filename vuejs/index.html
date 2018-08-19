@@ -18,10 +18,11 @@
                 <fieldset v-on:keyup.enter="newTask()">
                     <legend>Add/Edit Tasks</legend>
                     <label for="title">Title</label>
-                    <input type="text" id="title" v-validate="'required'" v-model="task.title" />
+                    <input type="text" v-bind:class="{alert:errors.first('title'),'alert-danger':errors.first('title')}" id="title" name="title" v-validate="'required'" v-model="task.title" />
+                    <span v-if="errors.first('title')">*</span>
                     <label for="sDate">Start Date</label>
-                    <input type="date" id="sDate" v-validate="'required|date_format:DD/MM/YYYY'" v-model="task.startDate" />
-
+                    <input type="date" v-bind:class="{alert:errors.first('sDate'),'alert-danger':errors.first('sDate')}" name="sDate" id="sDate" v-validate="'required|date_format:DD/MM/YYYY'" v-model="task.startDate" />
+                    <span v-if="errors.first('sDate')">*</span>
                     <input type="button" value="Save" @click="newTask()" />
                 </fieldset>
             </div>
@@ -46,8 +47,10 @@
                             <td>{{t.startDate}}</td>
                             <td>{{t.endDate}}</td>
                             <td>{{t.status}}</td>
-                            <td><input type="button" value="start" @click="startTask(t.id)" /> ||
-                                <input type="button" value="pause" @click="pauseTask(t.id)" />|| <input type="button" value="Remove" @click="removeTask(t.id)" /> </td>
+                            <td>
+                                <input type="button" value="start" @click="startTask(t.id)" /> ||
+                                <input type="button" value="pause" @click="pauseTask(t.id)" /> ||
+                                <input type="button" value="Remove" @click="removeTask(t.id)" /> </td>
                         </tr>
 
                     </tbody>
@@ -63,6 +66,9 @@
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js "></script>
     <!-- vee-validate -->
     <script src="https://cdn.jsdelivr.net/npm/vee-validate@latest/dist/vee-validate.js"></script>
+    <script>
+        Vue.use(VeeValidate); // good to go.
+    </script>
     <script src="scripts/app.js "></script>
 </body>
 

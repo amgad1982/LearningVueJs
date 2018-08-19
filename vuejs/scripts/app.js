@@ -1,5 +1,3 @@
-Vue.use(VeeValidate);
-
 var root = new Vue({
     el: '.root',
     data: {
@@ -10,21 +8,22 @@ var root = new Vue({
         newTask: function() {
             this.$validator.validateAll().then(function(result) {
                 if (result) {
+                    root.task.id = root.taskList.length > 0 ? root.taskList[root.taskList.length - 1].id + 1 : 1;
+                    root.task.status = 'new';
+
+                    var newTask = new Object();
+                    newTask.id = root.task.id;
+                    newTask.title = root.task.title;
+                    newTask.startDate = root.task.startDate;
+                    newTask.endDate = root.task.endDate;
+                    newTask.status = root.task.status;
+                    root.taskList.push(root.task);
+
+                    root.task = {};
 
                 }
+                return;
             });
-            this.task.id = this.taskList.length > 0 ? this.taskList[this.taskList.length - 1].id + 1 : 1;
-            this.task.status = 'new';
-
-            var newTask = new Object();
-            newTask.id = this.task.id;
-            newTask.title = this.task.title;
-            newTask.startDate = this.task.startDate;
-            newTask.endDate = this.task.endDate;
-            newTask.status = this.task.status;
-            this.taskList.push(this.task);
-
-            this.task = {};
 
         },
         startTask: function(id) {
